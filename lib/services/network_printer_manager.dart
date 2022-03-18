@@ -13,7 +13,8 @@ class NetworkPrinterManager extends PrinterManager {
     POSPrinter printer,
     PaperSize paperSize,
     CapabilityProfile profile, {
-    int spaceBetweenRows = 5,
+    int? paperWidth,
+    int spaceBetweenRows = 1,
     int port: 9100,
   }) {
     super.printer = printer;
@@ -23,7 +24,7 @@ class NetworkPrinterManager extends PrinterManager {
     super.spaceBetweenRows = spaceBetweenRows;
     super.port = port;
     generator =
-        Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows);
+        Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows, paperWidth: paperWidth);
   }
 
   /// [connect] let you connect to a network printer

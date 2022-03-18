@@ -18,7 +18,8 @@ class BluetoothPrinterManager extends PrinterManager {
     POSPrinter printer,
     PaperSize paperSize,
     CapabilityProfile profile, {
-    int spaceBetweenRows = 5,
+    int? paperWidth,
+    int spaceBetweenRows = 1,
     int port: 9100,
   }) {
     super.printer = printer;
@@ -28,7 +29,7 @@ class BluetoothPrinterManager extends PrinterManager {
     super.spaceBetweenRows = spaceBetweenRows;
     super.port = port;
     generator =
-        Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows);
+        Generator(paperSize, profile, spaceBetweenRows: spaceBetweenRows, paperWidth: paperWidth);
   }
 
   /// [connect] let you connect to a bluetooth printer
@@ -84,7 +85,7 @@ class BluetoothPrinterManager extends PrinterManager {
         await connect();
       }
       if (Platform.isAndroid || Platform.isIOS) {
-        if ((await (bluetooth.isConnected as FutureOr<bool>))) {
+        if ((await (bluetooth.isConnected) ?? false)) {
           Uint8List message = Uint8List.fromList(data);
           PosPrinterManager.logger.warning("message.length ${message.length}");
           await bluetooth.writeBytes(message);
